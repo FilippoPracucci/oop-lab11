@@ -7,10 +7,6 @@ namespace Properties
     /// </summary>
     public class Card
     {
-        private readonly string _seed;
-        private readonly string _name;
-        private readonly int _ordinal;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Card"/> class.
         /// </summary>
@@ -19,9 +15,9 @@ namespace Properties
         /// <param name="_ordinal">the ordinal number of the card.</param>
         public Card(string name, string seed, int ordinal)
         {
-            _name = name;
-            _ordinal = ordinal;
-            _seed = seed;
+            Name = name;
+            Ordinal = ordinal;
+            Seed = seed;
         }
 
         /// <summary>
@@ -32,38 +28,29 @@ namespace Properties
         {
         }
 
-        public string Seed
-        {
-            get => _seed;
-        }
+        public string Seed { get; }
 
-        public string Name
-        {
-            get => _name;
-        }
+        public string Name { get; }
 
-        public int Ordinal
-        {
-            get => _ordinal;
-        }
+        public int Ordinal { get; }
 
         /// <inheritdoc cref="object.ToString"/>
-        public override string ToString()
-        {
-            // TODO understand string interpolation
-            return $"{GetType().Name}(Name={Name}, Seed={Seed}, Ordinal={Ordinal})";
-        }
+        public override string ToString() => $"{GetType().Name}(Name={Name}, Seed={Seed}, Ordinal={Ordinal})";
 
         // TODO generate Equals(object obj)
-        public override bool Equals(object obj)
+        public bool Equals(Card c)
         {
-            return base.Equals(obj);
+            return string.Equals(Seed, c.Seed)
+                && string.Equals(Name, c.Name)
+                && Ordinal == c.Ordinal;
         }
+
+        public override bool Equals(object obj) => obj is Card card && Equals(card);
 
         // TODO generate GetHashCode()
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(Name, Seed, Ordinal);
         }
     }
 }

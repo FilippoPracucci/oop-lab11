@@ -45,6 +45,6 @@ namespace Properties
             }
         }
 
-        public int GetDeckSize() => _names.Length * _seeds.Length;
+        public int DeckSize => _names.Length * _seeds.Length;
     }
 }
