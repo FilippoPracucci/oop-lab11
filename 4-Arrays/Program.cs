@@ -19,7 +19,18 @@ namespace Arrays
         /// <seealso cref="Examples.Max"/>
         public static Complex MaxModulus(Complex[] array)
         {
-            return null; // TODO: remove this line
+            double maxModulus = Double.MinValue;
+            Complex max = null;
+            
+            foreach (Complex current in array)
+            {
+                if (max == null || current.Modulus > maxModulus)
+                {
+                    max = current;
+                    maxModulus = current.Modulus;
+                }
+            }
+            return max;
         }
 
         /// <summary>
@@ -33,7 +44,13 @@ namespace Arrays
         /// TODO: implement this method
         public static Complex[] Clone(Complex[] array)
         {
-            return null; // TODO: remove this line
+            Complex[] arrayClone = new Complex[array.Length];
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                arrayClone[i] = array[i];
+            }
+            return arrayClone;
         }
 
         /// <summary>
@@ -49,7 +66,20 @@ namespace Arrays
         /// <seealso cref="Examples.BubbleSort"/>
         public static Complex[] SortByPhase(Complex[] array)
         {
-            return null; // TODO: remove this line
+            Complex[] arrayClone = Clone(array);
+            
+            for (int i = 0; i < arrayClone.Length; i++)
+            {
+                for (int j = i - 1; j >= 0; j--)
+                {
+                    if (arrayClone[j + 1].Phase < arrayClone[j].Phase)
+                    {
+                        // swap via deconstruction
+                        (arrayClone[j], arrayClone[j + 1]) = (arrayClone[j + 1], arrayClone[j]);
+                    }
+                }
+            }
+            return arrayClone;
         }
         
         /// <summary>
@@ -64,7 +94,18 @@ namespace Arrays
         /// TODO: implement this method
         public static string ArrayToString(Complex[] array)
         {
-            return null; // TODO: remove this line
+            string s = "[";
+            for (int i = 0; i < array.Length - 1; i++)
+            {
+                if (array[i].ToString() != "")
+                {
+                    s += array[i].ToString();
+                    s += "; ";
+                }
+            }
+            s += array[array.Length - 1];
+            s += "]";
+            return s;
         }
         
         /// <summary>
@@ -74,38 +115,38 @@ namespace Arrays
         /// TODO: uncomment the commented code, if any
         static void Main(string[] args)
         {
-            // Complex[] numbers = new[] {
-            //     new Complex(0, 0),
-            //     new Complex(1, 1),
-            //     new Complex(0, 1), 
-            //     new Complex(-2, 2),
-            //     new Complex(-3, 0),
-            //     new Complex(-2, -2),
-            //     new Complex(0, -4),
-            //     new Complex(1, -1),
-            //     new Complex(1, 0)
-            // }; 
-            //
-            // Complex[] orderedByPhase = new[] {
-            //     new Complex(-2, -2),
-            //     new Complex(0, -4),
-            //     new Complex(1, -1),
-            //     new Complex(0, 0),
-            //     new Complex(1, 0),
-            //     new Complex(1, 1),
-            //     new Complex(0, 1),
-            //     new Complex(-2, 2),
-            //     new Complex(-3, 0)
-            // };
-            //
-            // var cloned = numbers;
-            //
-            // ArraysAreEqual(cloned, numbers);
-            // ArraysAreEqual(SortByPhase(numbers), orderedByPhase);
-            // ArraysAreEqual(numbers, cloned);
-            // CheckComplexNumber(MaxModulus(numbers), new Complex(0, -4));
-            // CheckComplexNumber(MaxModulus(orderedByPhase), new Complex(0, -4));
-            // CheckComplexNumber(MaxModulus(cloned), new Complex(0, -4));
+            Complex[] numbers = new[] {
+                new Complex(0, 0),
+                new Complex(1, 1),
+                new Complex(0, 1), 
+                new Complex(-2, 2),
+                new Complex(-3, 0),
+                new Complex(-2, -2),
+                new Complex(0, -4),
+                new Complex(1, -1),
+                new Complex(1, 0)
+            }; 
+            
+            Complex[] orderedByPhase = new[] {
+                new Complex(-2, -2),
+                new Complex(0, -4),
+                new Complex(1, -1),
+                new Complex(0, 0),
+                new Complex(1, 0),
+                new Complex(1, 1),
+                new Complex(0, 1),
+                new Complex(-2, 2),
+                new Complex(-3, 0)
+            };
+            
+            var cloned = numbers;
+            
+            ArraysAreEqual(cloned, numbers);
+            ArraysAreEqual(SortByPhase(numbers), orderedByPhase);
+            ArraysAreEqual(numbers, cloned);
+            CheckComplexNumber(MaxModulus(numbers), new Complex(0, -4));
+            CheckComplexNumber(MaxModulus(orderedByPhase), new Complex(0, -4));
+            CheckComplexNumber(MaxModulus(cloned), new Complex(0, -4));
         }
 
         /// <summary>
