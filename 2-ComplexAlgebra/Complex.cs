@@ -42,12 +42,14 @@ namespace ComplexAlgebra
         public override string ToString()
         {
             if (Imaginary == 0) return Real.ToString();
-            else
+            if (Imaginary == 1)
             {
                 if (Real == 0)
                 {
-                    return string.Concat(Imaginary.ToString() + "i");
+                    return "i";
                 }
+
+                return string.Concat(Real.ToString() + Sign() + "i");
             }
             return string.Concat(Real.ToString() + Sign() + Imaginary.ToString() + "i");
         }
