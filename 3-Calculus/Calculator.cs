@@ -1,3 +1,5 @@
+using System;
+using System.Net.Http.Headers;
 using ComplexAlgebra;
 
 namespace Calculus
@@ -27,6 +29,55 @@ namespace Calculus
         public const char OperationPlus = '+';
         public const char OperationMinus = '-';
 
-        // TODO fill this class
+        private char? _operation = null;
+        private Complex _intermediateResult = null;
+
+        private bool HasPendingOperation => _intermediateResult != null;
+        
+        public char? Operation
+        {
+            get => _operation;
+            set
+            {
+                if (HasPendingOperation)
+                {
+                    ComputeResult();
+                }
+                _operation = value;
+                _intermediateResult = Value;
+                Value = null;
+            }
+        }
+        
+        public Complex Value { get; set; }
+
+        public void ComputeResult()
+        {
+            switch (_operation)
+            {
+                case OperationPlus:
+                    Value = _intermediateResult.Plus(Value);
+                    break;
+                case OperationMinus:
+                    Value = _intermediateResult.Minus(Value);
+                    break;
+            }
+            _intermediateResult = null;
+            _operation = null;
+        }
+
+        public void Reset()
+        {
+            Value = null;
+            _intermediateResult = null;
+            _operation = null;
+        }
+
+        public override string ToString()
+        {
+            string value = (Value == null) ? "null" : $"({Value.ToString()})";
+            string operation = (Operation == null) ? "null" : $"'{Operation}'";
+            return $"Calculator({nameof(Value)}={value}, {nameof(Operation)}={operation})";
+        }
     }
 }
